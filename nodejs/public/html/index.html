@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="nav">
+    <a class="logo">AppleForum</a>
+    <a>Page1</a>
+    <a>Page2</a>
+  </div>
+  <div class="container">
+    <div class="row">
+    </div>
+  </div>
+  <div class="container">
+    <button class="btn btn-danger" id="add">더보기</button>
+    <button class="btn btn-danger" id="price-sort">가격순 정렬</button>
+    <button class="btn btn-danger" id="name-sort">이름순 정렬</button>
+    <button class="btn btn-danger" id="price-under-sort">6만 이하 정렬</button>
+  </div>
+  <div class="container">
+    <form action="cart.html">
+      <p></p>
+      <button class="btn btn-danger" id="cart">장바구니</button>
+    </form>
+  </div>
+
+  <script>
+    var products = [
+      { id: 0, price: 70000, title: 'Blossom Dress' },
+      { id: 1, price: 50000, title: 'Springfield Shirt' },
+      { id: 2, price: 60000, title: 'Black Monastery' }
+    ];
+
+    function productBox(title, price) {
+      var divBox = `
+        <div class="col-sm-4">
+          <img src="https://via.placeholder.com/600" class="w-100">
+          <h5>${title}</h5>
+          <p>가격 : ${price}</p>
+          <button class="buy">구매</button>
+        </div>
+      `;
+      return divBox;
+    };
+
+    // local storage에 데이터 저장하기
+    localStorage.setItem('name', 'kim');
+    localStorage.removeItem('name')
+
+    var arr = [1, 2, 3];
+    var newArr = JSON.stringify(arr);
+    localStorage.setItem('name', newArr);
+
+    // arr로 저장한 값 Arry로 가져오기
+    JSON.parse(localStorage.getItem('name'))[0];
+
+    //구매 누르면 상품명 저장하기
+    var cartList = JSON.stringify([]);
+    localStorage.setItem('cart', cartList)
+
+    $(document).ready(function () {
+      $('.buy').click(function () {
+        var title = $(this).siblings('h5').text();
+        _ = JSON.parse(localStorage.getItem('cart'))
+
+        if (!_.includes(title)) {
+          _.push(title);
+          cart = JSON.stringify(_);
+          localStorage.setItem('cart', cart);
+        };
+      });
+    });
+
+    // for (var i = 0; i < 3; i++) {
+    //   $('.row').append(productBox(products[i].title, products[i].price));
+    // };
+
+    products.forEach((a) => {
+      $('.row').append(productBox(a.title, a.price));
+    });
+
+    // ajax
+    var btnCnt = 1
+    $('#add').click(function () {
+      $.get(`https://codingapple1.github.io/js/more${btnCnt}.json`).done(function (data) {
+        data.forEach((a) => {
+          $('.row').append(productBox(a.title, a.price));
+        });
+      });
+      btnCnt++
+      /*
+      if (btnCnt > 2) {
+        더보기버튼 사라지기
+      }
+      */
+    });
+
+    // 정렬
+    var arr = [7, 2, 4, 6, 8];
+    var arr2 = ['c', 'a', 'e', 'b', 'c'];
+    arr.sort(function (a, b) {
+      return b - a;
+    });
+    arr2.sort(function (a, b) {
+      return a < b ? 1 : -1;
+    });
+    console.log(arr);
+    console.log(arr2);
+
+    $('#price-sort').click(function () {
+      products.sort(function (a, b) {
+        return a.price - b.price;
+      })
+
+      $('.row').html('')
+
+      products.forEach((a) => {
+        $('.row').append(productBox(a.title, a.price));
+      });
+    })
+
+    // .filter()
+    var arrFilter = arr.filter(function (a) {
+      return a < 7
+    })
+    console.log(arrFilter)
+
+    var arrMap = arr.map(function (a) {
+      return a * 1300
+    })
+    console.log(arrMap)
+
+    // 상품명 역순으로 정렬
+    $('#name-sort').click(function () {
+      products.sort(function (product1, product2) {
+        return product1.title < product2.title ? 1 : -1;
+      });
+
+      $('.row').html('');
+
+      products.forEach((product) => {
+        $('.row').append(productBox(product.title, product.price));
+      });
+    })
+
+    // 6만원 이하 상품보기
+    $('#price-under-sort').click(function () {
+      var priceProducts = products.filter((product) => {
+        return product.price <= 60000;
+      })
+
+      $('.row').html('');
+
+      priceProducts.forEach((product) => {
+        $('.row').append(productBox(product.title, product.price));
+      });
+    })
+
+  </script>
+</body>
+
+
+</html>

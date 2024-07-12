@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<!-- <%-, <%= : include와 같은 문법을 사용할때 사용, <% : 쌩 자바스크립트를 사용할때 사용 -->
+<!-- <%- : 코드 그대로 노출, <%= : html에 작성한대로 나옴 -->
+<body class="grey-bg">
+  <!-- include는 ejs에 파일에 있는 html이 붙여넣어짐, 재사용이 많은 ui에 효과적 -->
+  <%- include('nav.ejs') %>
+  <div class="white-bg">
+    <% for (var i=0; i < 2; i++) { %>
+      <div class="list-box">
+        <h4>
+          <%= post[i].title %>
+        </h4>
+        <p>글내용임</p>
+      </div>
+      <% }; %>
+  </div>
+
+</body>
+
+</html>
