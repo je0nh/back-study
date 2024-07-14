@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+  <title>Document</title>
+</head>
+<body>
+  <div th:each="announcements : ${announce}">
+    <p th:text="${announcements.subject}"></p>
+    <p th:text="${announcements.date}"></p>
+  </div>
+</body>
+</html>
