@@ -50,3 +50,6 @@ app.get('/time', (req, res) => {
 })
 
 // 글 작성 기능
+app.get('/post', (req, res) => {
+  res.render('time.ejs', { time: new Date() })
+})
