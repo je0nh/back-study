@@ -24,7 +24,7 @@ public class ItemController {
 
 //         List 자료형
 //        List<Object> a = new ArrayList<>();
-
+        
         model.addAttribute("items", result);
         return "list.html";
     }
