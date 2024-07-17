@@ -4,14 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,5 +51,23 @@ public class ItemController {
         itemRepository.save(item);
         
         return "redirect:/list";
+    }
+
+    // ModelAttribute를 사용하면 setter을 이용하지 않고 바로 받은 요소를 DB에 넣을 수 있음
+//    @PostMapping("/product")
+//    String productPost(@ModelAttribute Item item) {
+//        System.out.println(item); // Item(id=id, title=input_title, price=input_price)
+//        itemRepository.save(item);
+//        return "redirect:/list";
+//    }
+
+    @GetMapping("/detail/{id}")
+    String detail(@PathVariable Integer id, Model model) {
+        Optional<Item> result = itemRepository.findById(id);
+        if (result.isPresent()) {
+            System.out.println(result.get());
+            model.addAttribute("item", result.get());
+        }
+        return "detail.html";
     }
 }
