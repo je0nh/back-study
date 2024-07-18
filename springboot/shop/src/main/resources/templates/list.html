@@ -9,11 +9,16 @@
 
   <div th:replace="~{ nav.html::navbar }"></div>
   
+  <button style="background-color: beige">
+    <a href="/list/management">수정</a>
+  </button>
+  
   <div class="card" th:each="products : ${items}">
     <img src="https://placehold.co/300">
     <div>
       <h4 th:text="${products.title}"></h4>
-      <p th:text="${products.price}">7억</p>
+      <a th:href="@{ '/detail/' + ${products.id} }">링크</a>
+      <p th:text="${products.price}"></p>
     </div>
   </div>
 </body>
