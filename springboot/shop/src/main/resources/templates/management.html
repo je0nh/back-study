@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
+  <title>Document</title>
+  <link href="/main.css" rel="stylesheet">
+</head>
+<body>
+
+<div th:replace="~{ nav.html::navbar }"></div>
+
+<form action="/modify" method="POST">
+  <input name="id">
+  <input name="title">
+  <input name="price">
+  <button type="submit">전송</button>
+</form>
+</body>
+</html>
