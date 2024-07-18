@@ -2,6 +2,7 @@ package com.winterpear.shop;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +14,12 @@ import java.util.*;
 public class ItemController {
     
     private final ItemRepository itemRepository;
+    private final ItemService itemService;
 
     @GetMapping("/list")
     String list(Model model) {
 //        JPS로 데이터베이스에서 데이터 출력하기
-        List<Item> result = itemRepository.findAll();
+        List<Item> result = itemService.product();
 //        System.out.println(result.get(0).price);
         var a = new Item();
         System.out.println(a.toString());
@@ -45,10 +47,15 @@ public class ItemController {
         System.out.println(test.get("name"));
         
 //        DB 저장
-        Item item = new Item();
-        item.setTitle(formData.get("title"));
-        item.setPrice(Integer.parseInt(formData.get("price")));
-        itemRepository.save(item);
+//        Item item = new Item();
+//        item.setTitle(formData.get("title"));
+//        item.setPrice(Integer.parseInt(formData.get("price")));
+//        itemRepository.save(item);
+        
+        String title = formData.get("title");
+        Integer price = Integer.parseInt(formData.get("price"));
+        
+        itemService.saveItem(title, price);
         
         return "redirect:/list";
     }
@@ -63,11 +70,31 @@ public class ItemController {
 
     @GetMapping("/detail/{id}")
     String detail(@PathVariable Integer id, Model model) {
-        Optional<Item> result = itemRepository.findById(id);
+//        throw new Exception();
+        Optional<Item> result = itemService.productId(id);
         if (result.isPresent()) {
             System.out.println(result.get());
             model.addAttribute("item", result.get());
+            return "detail.html";
+        } else {
+            return "redirect:/list";
         }
-        return "detail.html";
+                 
+    }
+
+//        DB 데이터 변경
+    @GetMapping("/list/management")
+    public String productManagement() {
+        return "management.html";
+    }
+    
+    @PostMapping("/modify")
+    public String productModify (@RequestParam Map<String, String> formData) {
+        Integer id = Integer.parseInt(formData.get("id"));
+        String newTitle = formData.get("title");
+        Integer newPrice = Integer.parseInt(formData.get("price"));
+        itemService.modifyItem(id, newTitle, newPrice);
+        
+        return "modify.html";
     }
 }
