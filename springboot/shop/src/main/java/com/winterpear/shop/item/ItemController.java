@@ -2,6 +2,7 @@ package com.winterpear.shop.item;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -120,4 +121,13 @@ public class ItemController {
         itemService.deleteItem(id);
         return ResponseEntity.noContent().build();
     }
+
+//    hashing
+    @GetMapping("/test2")
+    public String test2() {
+        var result = new BCryptPasswordEncoder().encode("asdf");
+        System.out.println(result);
+        return "redirect:/list";
+    }
+    
 }

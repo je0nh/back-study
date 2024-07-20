@@ -10,8 +10,19 @@
 <body>
 
   <div th:replace="~{ nav.html::navbar }"></div>
+  <div>
+    <form action="/login" method="GET" style="float: left" sec:authorize="!isAuthenticated()">
+      <button type="submit">로그인</button>
+    </form>
+    <form action="/membership" method="GET" style="float: left">
+      <button type="submit">회원가입</button>
+    </form>
+    <form action="/logout" method="GET">
+      <button type="submit" sec:authorize="isAuthenticated()">로그아웃</button>
+    </form>
+  </div>
   
-  <div class="card" th:each="products : ${items}">
+  <div class="card" th:each="products : ${items}" style="clear: both;">
     <img src="https://placehold.co/300">
     <div>
       <h4 th:text="${products.title}"></h4>
