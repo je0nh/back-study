@@ -1,4 +1,4 @@
-package com.winterpear.shop;
+package com.winterpear.shop.item;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -42,5 +42,9 @@ public class ItemService {
         em.getTransaction().commit();
         
         em.close();
+    }
+    
+    public void deleteItem (Integer id) {
+        itemRepository.deleteById(id);
     }
 }

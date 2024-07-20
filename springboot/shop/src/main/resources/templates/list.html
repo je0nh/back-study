@@ -3,15 +3,13 @@
 <head>
   <meta content="text/html;charset=UTF-8" http-equiv="Content-Type">
   <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <link href="/main.css" rel="stylesheet">
 </head>
 <body>
 
   <div th:replace="~{ nav.html::navbar }"></div>
-  
-  <button style="background-color: beige">
-    <a href="/list/management">수정</a>
-  </button>
   
   <div class="card" th:each="products : ${items}">
     <img src="https://placehold.co/300">
@@ -19,7 +17,47 @@
       <h4 th:text="${products.title}"></h4>
       <a th:href="@{ '/detail/' + ${products.id} }">링크</a>
       <p th:text="${products.price}"></p>
+      <button class="btn" th:data-id="${products.id}">삭제하기</button>
     </div>
   </div>
+  
+  <button class="btn" id="test-btn">버튼</button>
+  
+<!-- Ajax를 이용해서 새로고침 없이 서버에서 데이터 가져올 수 있음 -->
+<script>
+  document.querySelector('#test-btn').addEventListener('click', () => {
+    fetch('/test1', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      // body : '전송할 데이터'
+      body: JSON.stringify({name: "kim"})
+    });
+  })
+  
+  document.querySelector('#test-btn').addEventListener('click', () => {
+    fetch('/test1?name=lee&age=23');
+  })
+
+
+  $(document).ready(function() {
+    $('.btn').click(function(e) {
+      var button = e.currentTarget;
+      var productId = $(button).data('id');
+
+      $.ajax({
+        method: 'DELETE',
+        url: `/delete/${productId}`,
+        success: function(result) {
+          alert('삭제 완료!');
+          location.reload();
+        },
+        error: function(err) {
+          alert('삭제 중 오류가 발생했습니다.');
+        }
+      });
+    });
+  });
+  
+</script>
 </body>
 </html>

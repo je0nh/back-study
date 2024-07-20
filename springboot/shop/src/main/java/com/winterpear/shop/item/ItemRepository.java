@@ -1,4 +1,4 @@
-package com.winterpear.shop;
+package com.winterpear.shop.item;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

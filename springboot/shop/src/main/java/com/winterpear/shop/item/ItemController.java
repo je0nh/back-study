@@ -1,7 +1,6 @@
-package com.winterpear.shop;
+package com.winterpear.shop.item;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,18 +82,42 @@ public class ItemController {
     }
 
 //        DB 데이터 변경
-    @GetMapping("/list/management")
-    public String productManagement() {
+    @GetMapping("/detail/{id}/management")
+    public String productManagement(@PathVariable Integer id, Model model) {
+        Optional<Item> pid = itemService.productId(id);
+        Item item = pid.get();
+        model.addAttribute("item", item);
         return "management.html";
     }
     
-    @PostMapping("/modify")
-    public String productModify (@RequestParam Map<String, String> formData) {
-        Integer id = Integer.parseInt(formData.get("id"));
+    @PostMapping("/detail/{id}/edit")
+    public String productEdit (@PathVariable Integer id, @RequestParam Map<String, String> formData, Model model) {
+        Optional<Item> pid = itemService.productId(id);
+        Item item = pid.get();
+        model.addAttribute("item", item);
+        
         String newTitle = formData.get("title");
         Integer newPrice = Integer.parseInt(formData.get("price"));
         itemService.modifyItem(id, newTitle, newPrice);
         
-        return "modify.html";
+        return "redirect:/list";
+    }
+
+    @PostMapping("/test1")
+    public String test1(@RequestBody Map<String, Object> body) {
+        System.out.println(body);
+        return "redirect:/list";
+    }
+
+    @GetMapping("/test1")
+    public String test1(@RequestParam String name) {
+        System.out.println(name);
+        return "redirect:/list";
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        itemService.deleteItem(id);
+        return ResponseEntity.noContent().build();
     }
 }
