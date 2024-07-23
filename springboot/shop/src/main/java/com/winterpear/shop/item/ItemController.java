@@ -1,6 +1,11 @@
 package com.winterpear.shop.item;
 
+import com.winterpear.shop.comment.Comment;
+import com.winterpear.shop.comment.CommentDTO;
+import com.winterpear.shop.comment.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +20,7 @@ public class ItemController {
     
     private final ItemRepository itemRepository;
     private final ItemService itemService;
+    private final CommentService commentService;
 
     @GetMapping("/list")
     String list(Model model) {
@@ -72,9 +78,13 @@ public class ItemController {
     String detail(@PathVariable Integer id, Model model) {
 //        throw new Exception();
         Optional<Item> result = itemService.productId(id);
+        List<CommentDTO> comments = commentService.getCommentUsers(id);
+        System.out.println(comments);
+        
         if (result.isPresent()) {
             System.out.println(result.get());
             model.addAttribute("item", result.get());
+            model.addAttribute("comments", comments);
             return "detail.html";
         } else {
             return "redirect:/list";
@@ -128,6 +138,13 @@ public class ItemController {
         var result = new BCryptPasswordEncoder().encode("asdf");
         System.out.println(result);
         return "redirect:/list";
+    }
+
+    @GetMapping("/list/page/{page}")
+    String getListPage(Model model, @PathVariable Integer page) {
+        Page<Item> items =  itemRepository.findPageBy(PageRequest.of(page - 1, 5));
+        model.addAttribute("items", items);
+        return "list.html";
     }
     
 }
