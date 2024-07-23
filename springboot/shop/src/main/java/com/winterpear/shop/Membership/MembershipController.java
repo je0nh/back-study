@@ -36,18 +36,18 @@ public class MembershipController {
     @GetMapping("/login")
     public String login () {
         var result = membershipRepository.findByUserid("test");
-        System.out.println(result.get().getUserid());
+//        System.out.println(result.get().getUserid());
         return "login.html";
     }
 
     @GetMapping("/my-page")
     public String myPage (Authentication auth) {
-        System.out.println(auth);
-        System.out.println(auth.getName());
-        System.out.println(auth.isAuthenticated());
+//        System.out.println(auth);
+//        System.out.println(auth.getName());
+//        System.out.println(auth.isAuthenticated());
 
         CustomUser result = (CustomUser) auth.getPrincipal();
-        System.out.println(result.getDisplayName());
+//        System.out.println(result.getDisplayName());
         return "mypage.html";
     }
 

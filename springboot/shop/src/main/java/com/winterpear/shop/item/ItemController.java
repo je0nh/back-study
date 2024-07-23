@@ -28,7 +28,7 @@ public class ItemController {
         List<Item> result = itemService.product();
 //        System.out.println(result.get(0).price);
         var a = new Item();
-        System.out.println(a.toString());
+//        System.out.println(a.toString());
 
 //         List 자료형
 //        List<Object> a = new ArrayList<>();
@@ -48,9 +48,9 @@ public class ItemController {
 //        map 자료형 이용하기
         Map<String, Object> test = new HashMap<>();
         
-        test.put("name", "kim");
-        test.put("age", 20);
-        System.out.println(test.get("name"));
+//        test.put("name", "kim");
+//        test.put("age", 20);
+//        System.out.println(test.get("name"));
         
 //        DB 저장
 //        Item item = new Item();
@@ -79,10 +79,10 @@ public class ItemController {
 //        throw new Exception();
         Optional<Item> result = itemService.productId(id);
         List<CommentDTO> comments = commentService.getCommentUsers(id);
-        System.out.println(comments);
+//        System.out.println(comments);
         
         if (result.isPresent()) {
-            System.out.println(result.get());
+//            System.out.println(result.get());
             model.addAttribute("item", result.get());
             model.addAttribute("comments", comments);
             return "detail.html";
@@ -136,7 +136,7 @@ public class ItemController {
     @GetMapping("/test2")
     public String test2() {
         var result = new BCryptPasswordEncoder().encode("asdf");
-        System.out.println(result);
+//        System.out.println(result);
         return "redirect:/list";
     }
 
