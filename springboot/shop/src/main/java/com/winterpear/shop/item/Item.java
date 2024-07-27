@@ -9,6 +9,8 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+// JPA로 index 만들기
+@Table(indexes = @Index(columnList = "title", name = "작명"))
 public class Item {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

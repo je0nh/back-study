@@ -147,4 +147,14 @@ public class ItemController {
         return "list.html";
     }
     
+    @PostMapping("/search")
+    String postSearch(@RequestParam String searchText, Model model) {
+        
+        var result = itemRepository.rawQuery1(searchText);
+        System.out.println(result);
+        model.addAttribute("items", result);
+        
+        return "list.html";
+    }
+        
 }
