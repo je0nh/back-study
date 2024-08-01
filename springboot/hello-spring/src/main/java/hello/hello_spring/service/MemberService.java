@@ -18,7 +18,7 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
-
+    
     public Long join(Member member) {
         // 같은 이름이 있는 중복 회원 x
         validateDuplicateMember(member);
