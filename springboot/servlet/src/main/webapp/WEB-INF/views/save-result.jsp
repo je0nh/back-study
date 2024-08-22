@@ -11,8 +11,8 @@
 <%--    <li>id=<%=((Member)request.getAttribute("member")).getUsername()%></li>--%>
 <%--    <li>id=<%=((Member)request.getAttribute("member")).getAge()%></li>--%>
     <li>id=${member.id}</li>
-    <li>id=${member.username}</li>
-    <li>id=${member.age}</li>
+    <li>username=${member.username}</li>
+    <li>age=${member.age}</li>
 </ul>
 <a href="/index.html">메인</a>
 </body>
